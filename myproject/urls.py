@@ -42,4 +42,8 @@ urlpatterns = [
     url(r'^boards/(?P<pk>\d+)/topics/(?P<topic_pk>\d+)/posts/(?P<post_pk>\d+)/edit/$',
         views.PostUpdateView.as_view(), name='edit_post'),
     url(r'^admin/', admin.site.urls),
+    url(r'^boards/posts/(?P<post_id>\d+)/upvote', views.PostUpvote, name='upvote_post'),
+    url(r'^boards/posts/(?P<post_id>\d+)/downvote', views.PostDownvote, name='downvote_post'),
+    url(r'^boards/topic/(?P<topic_id>\d+)/upvote', views.TopicUpvote, name='upvote_topic'),
+    url(r'^boards/topic/(?P<topic_id>\d+)/downvote', views.TopicDownvote, name='downvote_topic'),
 ]

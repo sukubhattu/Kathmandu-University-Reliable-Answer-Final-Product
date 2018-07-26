@@ -28,6 +28,7 @@ class Topic(models.Model):
     board = models.ForeignKey(Board, related_name='topics')
     starter = models.ForeignKey(User, related_name='topics')
     views = models.PositiveIntegerField(default=0)
+    votes = models.IntegerField(default=0)
 
     def __str__(self):
         return self.subject
@@ -59,6 +60,7 @@ class Post(models.Model):
     updated_at = models.DateTimeField(null=True)
     created_by = models.ForeignKey(User, related_name='posts')
     updated_by = models.ForeignKey(User, null=True, related_name='+')
+    votes = models.IntegerField(default=0)
 
     def __str__(self):
         truncated_message = Truncator(self.message)
@@ -66,3 +68,13 @@ class Post(models.Model):
 
     def get_message_as_markdown(self):
         return mark_safe(markdown(self.message, safe_mode='escape'))
+
+class PostVote(models.Model):
+    post = models.ForeignKey(Post)
+    voted_by = models.ForeignKey(User)
+    vote = models.IntegerField(default = 0)
+
+class TopicVote(models.Model):
+    topic = models.ForeignKey(Topic)
+    voted_by = models.ForeignKey(User)
+    vote = models.IntegerField(default = 0)

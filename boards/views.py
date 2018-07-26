@@ -8,7 +8,7 @@ from django.utils.decorators import method_decorator
 from django.urls import reverse
 
 from .forms import NewTopicForm, PostForm
-from .models import Board, Post, Topic
+from .models import Board, Post, Topic,PostVote,TopicVote
 
 
 class BoardListView(ListView):
@@ -100,6 +100,97 @@ def reply_topic(request, pk, topic_pk):
     else:
         form = PostForm()
     return render(request, 'reply_topic.html', {'topic': topic, 'form': form})
+
+@login_required
+def PostUpvote(request,post_id):
+    votes = PostVote.objects.all()
+    voted_by = request.user
+    new_vote = PostVote(post_id=post_id,vote=1,voted_by=voted_by)
+    if votes.filter(post_id=post_id,vote=1,voted_by=voted_by).exists():
+        PostVote.objects.filter(post_id=post_id,vote=1,voted_by=voted_by).delete()
+        post = Post.objects.get(id=post_id)
+        post.votes -= 1
+        post.save()
+    elif votes.filter(post_id=post_id,vote=-1,voted_by=voted_by):
+        PostVote.objects.filter(post_id=post_id,vote=-1,voted_by=voted_by).delete()
+        new_vote.save()
+        post = Post.objects.get(id=post_id)
+        post.votes += 2
+        post.save()    
+    else:
+        new_vote.save()
+        post = Post.objects.get(id=post_id)
+        post.votes += 1
+        post.save()
+
+
+@login_required
+def PostDownvote(request,post_id):
+    post = Post.objects.filter(id=post_id)
+    votes = PostVote.objects.all()
+    voted_by = request.user
+    new_vote = PostVote(post_id=post_id,vote=-1,voted_by=voted_by)
+    if votes.filter(post_id=post_id,vote=-1,voted_by=voted_by).exists():
+        PostVote.objects.filter(post_id=post_id,vote=-1,voted_by=voted_by).delete()
+        post = Post.objects.get(id=post_id)
+        post.votes += 1
+        post.save()
+    elif votes.filter(post_id=post_id,vote=1,voted_by=voted_by):
+        PostVote.objects.filter(post_id=post_id,vote=1,voted_by=voted_by).delete()
+        new_vote.save()   
+        post = Post.objects.get(id=post_id)
+        post.votes -= 2
+        post.save() 
+    else:
+        new_vote.save()
+        post = Post.objects.get(id=post_id)
+        post.votes -= 1
+        post.save()
+
+@login_required
+def TopicUpvote(request,topic_id):
+    votes = TopicVote.objects.all()
+    voted_by = request.user
+    new_vote = TopicVote(topic_id=topic_id,vote=1,voted_by=voted_by)
+    if votes.filter(topic_id=topic_id,vote=1,voted_by=voted_by).exists():
+        TopicVote.objects.filter(topic_id=topic_id,vote=1,voted_by=voted_by).delete()
+        topic = Topic.objects.get(id=topic_id)
+        topic.votes -= 1
+        topic.save()
+    elif votes.filter(topic_id=topic_id,vote=-1,voted_by=voted_by):
+        TopicVote.objects.filter(topic_id=topic_id,vote=-1,voted_by=voted_by).delete()
+        new_vote.save()
+        topic = Topic.objects.get(id=topic_id)
+        topic.votes += 2
+        topic.save()    
+    else:
+        new_vote.save()
+        topic = Topic.objects.get(id=topic_id)
+        topic.votes += 1
+        topic.save()
+
+
+@login_required
+def TopicDownvote(request,topic_id):
+    votes = TopicVote.objects.all()
+    voted_by = request.user
+    new_vote = TopicVote(topic_id=topic_id,vote=-1,voted_by=voted_by)
+    if votes.filter(topic_id=topic_id,vote=-1,voted_by=voted_by).exists():
+        TopicVote.objects.filter(topic_id=topic_id,vote=-1,voted_by=voted_by).delete()
+        topic = Topic.objects.get(id=topic_id)
+        topic.votes += 1
+        topic.save()
+    elif votes.filter(topic_id=topic_id,vote=1,voted_by=voted_by):
+        TopicVote.objects.filter(topic_id=topic_id,vote=1,voted_by=voted_by).delete()
+        new_vote.save()
+        topic = Topic.objects.get(id=topic_id)
+        topic.votes -= 2
+        topic.save()    
+    else:
+        new_vote.save()
+        topic = Topic.objects.get(id=topic_id)
+        topic.votes -= 1
+        topic.save()
 
 
 @method_decorator(login_required, name='dispatch')
