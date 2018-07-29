@@ -4,10 +4,14 @@ from django.contrib.auth import views as auth_views
 
 from accounts import views as accounts_views
 from boards import views
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf.urls.static import static
+from django.conf import settings
 
 
 urlpatterns = [
     url(r'^postman/', include('postman.urls')),
+    url(r'^articles/', include('articles.urls')),
     url(r'^$', views.BoardListView.as_view(), name='home'),
     url(r'^signup/$', accounts_views.signup, name='signup'),
     url(r'^login/$', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
@@ -50,3 +54,5 @@ urlpatterns = [
     url(r'^boards/topic/(?P<topic_id>\d+)/downvote', views.TopicDownvote, name='downvote_topic'),
     url(r'^boards/topic/(?P<post_pk>\d+)', views.DeletePost, name='delete_posts'),
    ]
+urlpatterns += staticfiles_urlpatterns()
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
