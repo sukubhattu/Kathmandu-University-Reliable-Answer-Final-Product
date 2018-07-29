@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 
+
 from .models import Board, Post, Topic, PostVote,TopicVote
 
 class BoardAdmin(admin.ModelAdmin):
@@ -24,4 +25,18 @@ admin.site.register(Post,PostAdmin)
 admin.site.register(Topic,TopicAdmin)
 admin.site.register(PostVote,PostVoteAdmin)
 admin.site.register(TopicVote,TopicVoteAdmin)
+=======
+from .models import Board, Topic, Post
+
+
+class TopicAdmin(admin.ModelAdmin):
+	list_display  = ['subject','last_updated','board','starter']
+	list_filter   = ['last_updated']
+	search_fields = ['subject']
+
+
+admin.site.register(Board)
+admin.site.register(Topic, TopicAdmin)
+admin.site.register(Post)
+
 
