@@ -1,4 +1,3 @@
-
 {% extends 'base.html' %}
 {%load staticfiles%}
 {% block title %}{{user1.username}}'s Profile{% endblock %}
@@ -7,7 +6,7 @@
 {%block content%}
 	<table>
 		<tr>
-		<td>	<img src = "{% static 'E:/kura1/static/img/male.jpg' %}" height = 200/></td>
+		<td>	<img src = "{% static 'img/male.jpg' %}" height = 200/></td>
 		<td><h1> {{user1.first_name}} {{user1.last_name}}</h1>
 	 {{user1.email}}</td>
 </tr>
