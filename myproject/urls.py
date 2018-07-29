@@ -30,7 +30,7 @@ urlpatterns = [
         name='password_reset_complete'),
 
     url(r'^settings/account/$', accounts_views.UserUpdateView.as_view(), name='my_account'),
-    url(r'^profile/(?P<user_id>\d+)/$', accounts_views.ProfileView, name='profile'),
+    url(r'^profile/(?P<user_id>\d+)/(?P<value>\d+)/$', accounts_views.ProfileView, name='profile'),
     url(r'^settings/password/$', auth_views.PasswordChangeView.as_view(template_name='password_change.html'),
         name='password_change'),
     url(r'^settings/password/done/$', auth_views.PasswordChangeDoneView.as_view(template_name='password_change_done.html'),

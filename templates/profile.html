@@ -1,3 +1,78 @@
-{% extends 'base.html' %}
 
-{% block title %}{{user.username}}'s Profile{% endblock %}
+{% extends 'base.html' %}
+{%load staticfiles%}
+{% block title %}{{user1.username}}'s Profile{% endblock %}
+
+
+{%block content%}
+	<table>
+		<tr>
+		<td>	<img src = "{% static 'E:/kura1/static/img/male.jpg' %}" height = 200/></td>
+		<td><h1> {{user1.first_name}} {{user1.last_name}}</h1>
+	 {{user1.email}}</td>
+</tr>
+</table>
+	<hr>
+
+	<a href = "{%url 'profile' user1.id 0 %}">Posts</a> |
+	<a href = "{%url 'profile' user1.id 1 %}">Topics</a> |
+	<a href = "{%url 'profile' user1.id 2 %}">Upvotes</a>
+	<br>
+	<br>
+		{%if value == '0'%}
+		{%for topics in post2%}
+		 <div class="card-header text-white bg-dark py-2 px-3"><a href = "{%url 'topic_posts' topics.board_id topics.id%}">{{ topics.subject }}</a>                                         
+		 	<br>Votes: {{topics.votes}}  
+          
+          <form action = "{%url 'upvote_topic' topics.id%}" method="POST">
+               </form></div>
+		<br>
+		
+		{%for posts in topic_post%}
+			{%if posts.topic_id == topics.id%}
+				
+					{{posts.message}}
+				
+			{%endif%}
+		{%endfor%}
+		{%endfor%}
+	{%endif%}
+	{%if value == '1'%}
+		{%for topics in topic%}
+		 <div class="card-header text-white bg-dark py-2 px-3"><a href = "{%url 'topic_posts' topics.board_id topics.id%}">{{ topics.subject }}</a>                                         
+		 	<br>Votes: {{topics.votes}}  
+          
+          <form action = "{%url 'upvote_topic' topics.id%}" method="POST">
+               </form></div>
+		<br>
+		
+		{%for posts in topic_post%}
+			{%if posts.topic_id == topics.id%}
+				
+					{{posts.message}}
+				
+			{%endif%}
+		{%endfor%}
+		{%endfor%}
+	{%endif%}
+
+
+	{%if value == '2'%}
+		{%for topics in topic2%}
+		 <div class="card-header text-white bg-dark py-2 px-3"><a href = "{%url 'topic_posts' topics.board_id topics.id%}">{{ topics.subject }}</a>                                         
+		 	<br>Votes: {{topics.votes}}  
+          
+          <form action = "{%url 'upvote_topic' topics.id%}" method="POST">
+               </form></div>
+		<br>
+		
+		{%for posts in topic_post%}
+			{%if posts.topic_id == topics.id%}
+				
+					{{posts.message}}
+				
+			{%endif%}
+		{%endfor%}
+		{%endfor%}
+	{%endif%}
+{%endblock%} 
