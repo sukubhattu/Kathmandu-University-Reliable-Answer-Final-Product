@@ -28,5 +28,6 @@
     {% include 'includes/form.html' %}
     <button type="submit" class="btn btn-success">Save changes</button>
     <a href="{% url 'topic_posts' post.topic.board.pk post.topic.pk %}" class="btn btn-outline-secondary" role="button">Cancel</a>
+    <a href="{% url 'delete_posts' post.pk %}" class="btn btn-outline-secondary" role="button">Delete</a>
   </form>
 {% endblock %}

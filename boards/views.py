@@ -122,7 +122,14 @@ def PostUpvote(request,post_id):
         post = Post.objects.get(id=post_id)
         post.votes += 1
         post.save()
-
+    p = Post.objects.all()
+    post = p.filter(id = post_id);
+    topic_id = post.values_list('topic_id',flat = True)
+    topic1 = Topic.objects.filter(id=topic_id)
+    topic = Topic.objects.get(id = topic_id)
+    board_id = topic1.values_list('board_id',flat=True)
+    board = Board.objects.get(id=board_id)
+    return redirect('topic_posts', pk=board.id, topic_pk=topic.id)
 
 @login_required
 def PostDownvote(request,post_id):
@@ -146,6 +153,15 @@ def PostDownvote(request,post_id):
         post = Post.objects.get(id=post_id)
         post.votes -= 1
         post.save()
+    p = Post.objects.all()
+    post = p.filter(id = post_id);
+    topic_id = post.values_list('topic_id',flat = True)
+    topic1 = Topic.objects.filter(id=topic_id)
+    topic = Topic.objects.get(id = topic_id)
+    board_id = topic1.values_list('board_id',flat=True)
+    board = Board.objects.get(id=board_id)
+    return redirect('topic_posts', pk=board.id, topic_pk=topic.id)
+
 
 @login_required
 def TopicUpvote(request,topic_id):
@@ -168,6 +184,11 @@ def TopicUpvote(request,topic_id):
         topic = Topic.objects.get(id=topic_id)
         topic.votes += 1
         topic.save()
+    topic1 = Topic.objects.filter(id=topic_id)
+    topic = Topic.objects.get(id = topic_id)
+    board_id = topic1.values_list('board_id',flat=True)
+    board = Board.objects.get(id=board_id)
+    return redirect('topic_posts', pk=board.id, topic_pk=topic.id)
 
 
 @login_required
@@ -191,6 +212,23 @@ def TopicDownvote(request,topic_id):
         topic = Topic.objects.get(id=topic_id)
         topic.votes -= 1
         topic.save()
+    topic1 = Topic.objects.filter(id=topic_id)
+    topic = Topic.objects.get(id = topic_id)
+    board_id = topic1.values_list('board_id',flat=True)
+    board = Board.objects.get(id=board_id)
+    return redirect('topic_posts', pk=board.id, topic_pk=topic.id)
+
+
+def DeletePost(request,post_pk):
+    p = Post.objects.all();
+    post = p.filter(id = post_pk);
+    topic_id = post.values_list('topic_id',flat = True)
+    topic1 = Topic.objects.filter(id=topic_id)
+    topic = Topic.objects.get(id = topic_id)
+    board_id = topic1.values_list('board_id',flat=True)
+    board = Board.objects.get(id=board_id)
+    post.delete();
+    return redirect('topic_posts', pk=board.id, topic_pk=topic.id)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -211,3 +249,5 @@ class PostUpdateView(UpdateView):
         post.updated_at = timezone.now()
         post.save()
         return redirect('topic_posts', pk=post.topic.board.pk, topic_pk=post.topic.pk)
+
+

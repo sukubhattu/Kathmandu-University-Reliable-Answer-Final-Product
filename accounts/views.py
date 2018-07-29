@@ -29,3 +29,11 @@ class UserUpdateView(UpdateView):
 
     def get_object(self):
         return self.request.user
+
+
+def ProfileView(request,user_id):
+    user = User.objects.get(id=user_id)
+    content           = {
+        "user":user,
+    }
+    return render(request,'profile.html',content)
