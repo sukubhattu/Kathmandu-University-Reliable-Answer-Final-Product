@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
@@ -7,6 +7,7 @@ from boards import views
 
 
 urlpatterns = [
+    url(r'^postman/', include('postman.urls')),
     url(r'^$', views.BoardListView.as_view(), name='home'),
     url(r'^signup/$', accounts_views.signup, name='signup'),
     url(r'^login/$', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
@@ -47,5 +48,5 @@ urlpatterns = [
     url(r'^boards/posts/(?P<post_id>\d+)/downvote', views.PostDownvote, name='downvote_post'),
     url(r'^boards/topic/(?P<topic_id>\d+)/upvote', views.TopicUpvote, name='upvote_topic'),
     url(r'^boards/topic/(?P<topic_id>\d+)/downvote', views.TopicDownvote, name='downvote_topic'),
-     url(r'^boards/topic/(?P<post_pk>\d+)', views.DeletePost, name='delete_posts'),
-]
+    url(r'^boards/topic/(?P<post_pk>\d+)', views.DeletePost, name='delete_posts'),
+   ]

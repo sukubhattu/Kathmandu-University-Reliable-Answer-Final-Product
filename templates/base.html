@@ -14,6 +14,7 @@
         <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
           <div class="container">
             <a class="navbar-brand" href="{% url 'home' %}">KURA</a>
+            <a class="navbar-brand" href="#">MESSAGES</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu" aria-controls="mainMenu" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -48,10 +49,13 @@
             {% block breadcrumb %}
             {% endblock %}
           </ol>
+          {% block carousel %}
+
+          {% endblock%}
           {% block content %}
           {% endblock %}
         </div>
-        <div class="push"></div>
+        
       </div>
       <!--       <footer>
         <div class="container">

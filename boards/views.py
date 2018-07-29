@@ -6,6 +6,7 @@ from django.views.generic import UpdateView, ListView
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.urls import reverse
+from django.http import HttpResponse
 
 from .forms import NewTopicForm, PostForm
 from .models import Board, Post, Topic,PostVote,TopicVote
@@ -21,7 +22,7 @@ class TopicListView(ListView):
     model = Topic
     context_object_name = 'topics'
     template_name = 'topics.html'
-    paginate_by = 20
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         kwargs['board'] = self.board
@@ -249,5 +250,7 @@ class PostUpdateView(UpdateView):
         post.updated_at = timezone.now()
         post.save()
         return redirect('topic_posts', pk=post.topic.board.pk, topic_pk=post.topic.pk)
+
+
 
 
