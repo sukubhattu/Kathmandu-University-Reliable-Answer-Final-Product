@@ -54,6 +54,8 @@ urlpatterns = [
     url(r'^boards/topic/(?P<topic_id>\d+)/downvote', views.TopicDownvote, name='downvote_topic'),
     url(r'^boards/topic/(?P<post_pk>\d+)', views.DeletePost, name='delete_posts'),
     url(r'^boards/(?P<board_id>\d+)/search/$', views.SearchTopic, name='search_topics'),
+    url(r'^contact_us/$', views.ContactUs, name='contact'),
+    url(r'^contact_us/feedback$', views.Feedback, name='feedback'),
 ]
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

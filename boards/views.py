@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.http import HttpResponse
 
 from .forms import NewTopicForm, PostForm
-from .models import Board, Post, Topic,PostVote,TopicVote
+from .models import Board, Post, Topic,PostVote,TopicVote,Contact
 
 
 class BoardListView(ListView):
@@ -268,3 +268,14 @@ def SearchTopic(request,board_id):
     }
 
     return render(request,'topics.html',content)
+
+def ContactUs(request):
+    return render(request,'contact_us.html')
+
+def Feedback(request):
+    feedback = request.GET['feedback']
+    name = request.user.first_name + " " +request.user.last_name
+    email = request.user.email
+    new_contact = Contact(name=name,email=email,feedback=feedback)
+    new_contact.save()
+    return redirect('home')

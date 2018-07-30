@@ -2,7 +2,9 @@
 {%load staticfiles%}
 {% block title %}{{user1.username}}'s Profile{% endblock %}
 
-
+{% block breadcrumb %}
+  <li class="breadcrumb-item active">{{user1.username}}'s Profile</li>
+{% endblock %}
 {%block content%}
 	<table>
 		<tr>

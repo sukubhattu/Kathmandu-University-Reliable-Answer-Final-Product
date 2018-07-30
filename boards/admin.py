@@ -2,7 +2,7 @@ from django.contrib import admin
 
 
 
-from .models import Board, Post, Topic, PostVote,TopicVote
+from .models import Board, Post, Topic, PostVote,TopicVote,Contact
 
 class BoardAdmin(admin.ModelAdmin):
 	list_display = ('name','description')
@@ -19,9 +19,12 @@ class PostVoteAdmin(admin.ModelAdmin):
 class TopicVoteAdmin(admin.ModelAdmin):
 	list_display = ['topic_id','voted_by','vote']
 
+class ContactAdmin(admin.ModelAdmin):
+	list_display = ['name','email','feedback']
 
 admin.site.register(Board,BoardAdmin)
 admin.site.register(Post,PostAdmin)
 admin.site.register(Topic,TopicAdmin)
 admin.site.register(PostVote,PostVoteAdmin)
 admin.site.register(TopicVote,TopicVoteAdmin)
+admin.site.register(Contact,ContactAdmin)

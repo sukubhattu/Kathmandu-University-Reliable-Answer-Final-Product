@@ -78,3 +78,9 @@ class TopicVote(models.Model):
     topic = models.ForeignKey(Topic)
     voted_by = models.ForeignKey(User)
     vote = models.IntegerField(default = 0)
+
+class Contact(models.Model):
+    name = models.TextField(max_length=100)
+    email = models.TextField(max_length=100)
+    feedback = models.TextField(max_length=100)
+    
