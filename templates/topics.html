@@ -24,13 +24,18 @@
         <th>Replies</th>
         <th>Views</th>
         <th>Last Update</th>
-
-        <th> votes </th>
-
-
       </tr>
     </thead>
     <tbody>
+      <form class="form-inline my-2 my-lg-1" action = "{%url 'search_topics' board.id%}">
+          <input
+            class="form-control mr-sm-2"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+            name="search"
+            value="{{search_term}}"><button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button></a><br><br>
+      </form>
       {% for topic in topics %}
         {% url 'topic_posts' board.pk topic.pk as topic_url %}
         <tr>
@@ -52,7 +57,6 @@
           <td class="align-middle">{{ topic.replies }}</td>
           <td class="align-middle">{{ topic.views }}</td>
           <td class="align-middle">{{ topic.last_updated|naturaltime }}</td>
-          <td class="align-middle">{{ topic.votes }}</td>
         </tr>
       {% endfor %}
     </tbody>

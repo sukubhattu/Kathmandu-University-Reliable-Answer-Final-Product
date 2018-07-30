@@ -251,6 +251,20 @@ class PostUpdateView(UpdateView):
         post.save()
         return redirect('topic_posts', pk=post.topic.board.pk, topic_pk=post.topic.pk)
 
+def SearchTopic(request,board_id):
+    topic1 = Topic.objects.filter(board_id=board_id)
+    if 'search' in request.GET:
+        search_term   = request.GET['search']
+        topic = topic1.filter(subject__icontains=search_term)
+    else:
+        topics = topic1.order_by('-last_updated')
+    topics = topic.order_by('-last_updated')
+    board = Board.objects.get(id=board_id)
 
+    content = {
 
+    'topics':topics,
+    'board':board,
+    }
 
+    return render(request,'topics.html',content)
